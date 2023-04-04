@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url:
+    username:
+    password:
+    hikari:
+      maximum-pool-size:
+      minimum-idle:
