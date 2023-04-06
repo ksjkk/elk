@@ -2,7 +2,6 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    show-sql: true
     open-in-view: false
     hibernate:
       ddl-auto: none
@@ -10,6 +9,12 @@ spring:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     generate-ddl: false
+    properties:
+      hibernate:
+        show_sql: true
+        highlight_sql: true
+        default_batch_fetch_size: 100
+        format_sql: true
   elasticsearch:
     uris: localhost:9200
 
@@ -19,3 +24,12 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace
+    root: info

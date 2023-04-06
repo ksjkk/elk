@@ -7,6 +7,4 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 @Configuration
 @EnableElasticsearchRepositories("com.example.elasticsearch")
-class ElasticsearchConfig : ElasticsearchConfigurationSupport() {
-
-}
+class ElasticsearchConfig : ElasticsearchConfigurationSupport()

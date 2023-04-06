@@ -22,16 +22,18 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 allOpen {
-	annotation("javax.persistence.Entity")
+	annotation("jakarta.persistence.Entity")
+	annotation("jakarta.persistence.MappedSuperclass")
 }
 
 noArg {
-	annotation("javax.persistence.Entity")
+	annotation("jakarta.persistence.Entity")
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,7 +1,11 @@
 package com.example.elasticsearch.config
 
+import com.example.elasticsearch.common.logger
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import jakarta.persistence.EntityManagerFactory
-import org.springframework.boot.autoconfigure.domain.EntityScan
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -15,32 +19,25 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.PlatformTransactionManager
 import java.util.*
 import javax.sql.DataSource
-import kotlin.collections.HashMap
 
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableJpaRepositories(basePackages = ["com.example.elasticsearch"])
-@EntityScan(basePackages = ["com.example.elasticsearch"])
 class JpaConfig {
+    private val log = logger()
     
     @Bean
-    @ConfigurationProperties("spring.jpa.properties.hibernate")
-    fun hibernateProperties(): Map<String, Any> = HashMap()
-    
-    @Bean
-    fun entityManagerFactory(dataSource: DataSource, hibernateProperties: Map<String, Any>): LocalContainerEntityManagerFactoryBean {
+    fun entityManagerFactory(dataSource: DataSource, jpaProperties: JpaProperties): LocalContainerEntityManagerFactoryBean {
         return LocalContainerEntityManagerFactoryBean().also {
             it.dataSource = dataSource
             it.setPackagesToScan("com.example.elasticsearch")
             it.jpaVendorAdapter = HibernateJpaVendorAdapter()
-            it.setJpaPropertyMap(hibernateProperties.entries.associate { property ->
-                "hibernate.${property.key}" to property.value
-            })
+            it.setJpaPropertyMap(jpaProperties.properties)
         }
     }
     
     @Bean
-    fun transactionManager(entityManagerFactory: EntityManagerFactory): PlatformTransactionManager? {
+    fun transactionManager(entityManagerFactory: EntityManagerFactory): PlatformTransactionManager {
         return JpaTransactionManager().also {
             it.entityManagerFactory = entityManagerFactory
         }
