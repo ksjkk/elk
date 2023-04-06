@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://infosys-dev-my.ay1.krane.9rum.cc/playground?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&autoReconnect=false&useSSL=false
+    username: infosys
+    password: dhQmf2@2!
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 1
